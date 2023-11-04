@@ -1,0 +1,24 @@
+{
+  "name": "hunt-the-wumpus",
+  "version": "1.0.0",
+  "description": "Clone of the classic game Hunt the Wumpus",
+  "main": "src/index.ts",
+  "scripts": {
+    "start": "npm run start:english",
+    "start:english": "LANGUAGE=ENGLISH deno run --allow-env=LANGUAGE ./src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RikJurriaans/hunt-the-wumpus.git"
+  },
+  "author": "Rik Jurriaans",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RikJurriaans/hunt-the-wumpus/issues"
+  },
+  "homepage": "https://github.com/RikJurriaans/hunt-the-wumpus#readme",
+  "dependencies": {
+    "deno_ls_plugin": "^0.1.0",
+    "typescript": "^5.2.2"
+  }
+}
