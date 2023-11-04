@@ -1,8 +1,15 @@
+import { GAME_ACTIONS } from "../../gameRules/GameEngineCommands.ts";
 import NaturalLanguage from "./NaturalLanguage.ts";
 
 export default class English implements NaturalLanguage {
-  h: string = `
-    Welcome to "Hunt the Wumpus"
+  keepPlayingText = "Good. the Wumpus is looking for you!";
+  goodbyeText = "Goodbye, braveheart!";
+  areYouSureYouWantToQuit = "Are you sure you want to quit?";
+  genericPromptQuestion = "What are you going to do?";
+  noCommandFound = "That doesn't make any sense";
+  quitText = `Are you sure you want to quit?`;
+  helpText = `
+  Welcome to "Hunt the Wumpus"
 The wumpus lives in a cave of 20 rooms. Each room has 3 tunnels to
 other rooms. (Look at a dodecahedron to see how this works. If you
 dont know what a dodecahedron is, ask someone.)
@@ -30,4 +37,10 @@ Warnings:
    Wumpus:  "You smell something terrible nearby."
    Bat   :  "You hear a rustling."
    Pit   :  "You feel a cold wind blowing from a nearby cavern."`;
+
+  /** Command mapping */
+  help = GAME_ACTIONS.HELP;
+  quit = GAME_ACTIONS.QUIT;
+  yes = GAME_ACTIONS.YES_QUIT;
+  no = GAME_ACTIONS.NO_DONT_QUIT;
 }

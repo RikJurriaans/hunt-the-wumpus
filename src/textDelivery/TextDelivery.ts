@@ -4,6 +4,7 @@
 // or an SMS interface with Twillio or something
 // it should not matter.
 
+import { GAME_ACTIONS } from "../gameRules/GameEngineCommands.ts";
 import Language from "../language/Language.ts";
 import DeliveryMechanism from "./DeliveryMechanism.ts";
 
@@ -16,13 +17,17 @@ export default class TextDelivery {
     this._language = language;
   }
 
-  welcome(): void {
-    this._deliveryMechanism.deliver(this._language.getTextResponse("h"));
+  displayWelcomeMessage() {
+    this._deliveryMechanism.deliver(this._language.welcome());
   }
 
-  respondToUserCommand(inputText: string) {
+  respondToUserCommand(gameAction: GAME_ACTIONS) {
     // translate the command into something our GameRules class understands
-    const textResponse = this.language.getTextResponse(inputText);
+    const textResponse = this._language.getResponse(gameAction);
     this._deliveryMechanism.deliver(textResponse);
+  }
+
+  prompt() {
+    return this._deliveryMechanism.prompt(">");
   }
 }

@@ -1,12 +1,17 @@
 // Language class should be independent of the language.
 
+import { GameRules } from "../gameRules/GameRules.ts";
+import { GAME_ACTIONS } from "../gameRules/GameEngineCommands.ts";
 import type NaturalLanguage from "./languages/NaturalLanguage.ts";
 
 export default class Language {
   private _userLanguage: NaturalLanguage;
+  private _gameRules: GameRules;
+  private _promptQuestion: string;
 
   constructor(userLanguage: NaturalLanguage) {
     this._userLanguage = userLanguage;
+    this._gameRules = new GameRules();
   }
 
   // setNewUserLanguage(newLanguage: NaturalLanguage) {
@@ -15,19 +20,39 @@ export default class Language {
   // this._userLanguage =
   // }
 
-  getTextResponse(inputText: string): string {
-    const directTranslation = this._userLanguage[inputText];
-    if (directTranslation) {
-      // Skip the game engine if theres a simple translation.
-      return directTranslation;
+  getTranslatedGameAction(inputCommand: string): GAME_ACTIONS {
+    const gameAction = this._userLanguage[inputCommand];
+    if (typeof gameAction === "undefined") {
+      return GAME_ACTIONS.UNRECOGNISED_COMMAND;
     }
 
-    // if (inputText === 'change_language') {
+    return gameAction;
+  }
 
-    // }
+  getPromptQuestion(): string {
+    if (!this._promptQuestion) {
+      return this._userLanguage.genericPromptQuestion;
+    }
 
-    // Go to the game engine.
-    console.log("translating to game engine");
-    return "x";
+    return this._promptQuestion;
+  }
+
+  welcome(): string {
+    return this._userLanguage.helpText;
+  }
+
+  getResponse(gameAction: GAME_ACTIONS): string {
+    switch (gameAction) {
+      case GAME_ACTIONS.HELP:
+        return this._userLanguage.helpText;
+      case GAME_ACTIONS.QUIT:
+        return this._userLanguage.quitText;
+      case GAME_ACTIONS.YES_QUIT:
+        return this._userLanguage.goodbyeText;
+      case GAME_ACTIONS.NO_DONT_QUIT:
+        return this._userLanguage.keepPlayingText;
+      default:
+        return this._userLanguage.noCommandFound;
+    }
   }
 }
